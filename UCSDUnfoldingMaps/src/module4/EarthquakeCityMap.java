@@ -49,6 +49,8 @@ public class EarthquakeCityMap extends PApplet {
 	private String cityFile = "city-data.json";
 	private String countryFile = "countries.geo.json";
 	
+	private int numOceanQuakes;
+	
 	// The map
 	private UnfoldingMap map;
 	
@@ -76,8 +78,8 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		//earthquakesURL = "test1.atom";
-		//earthquakesURL = "test2.atom";
+		earthquakesURL = "test1.atom";
+		earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
 		//earthquakesURL = "quiz1.atom";
@@ -107,6 +109,7 @@ public class EarthquakeCityMap extends PApplet {
 		  // OceanQuakes
 		  else {
 		    quakeMarkers.add(new OceanQuakeMarker(feature));
+		    numOceanQuakes += 1;
 		  }
 	    }
 
@@ -201,20 +204,22 @@ public class EarthquakeCityMap extends PApplet {
 		//      the name property of the country marker.   If so, increment
 		//      the country's counter.
 		
-		// Here is some code you will find useful:
-		// 
-		//  * To get the name of a country from a country marker in variable cm, use:
-		//     String name = (String)cm.getProperty("name");
-		//  * If you have a reference to a Marker m, but you know the underlying object
-		//    is an EarthquakeMarker, you can cast it:
-		//       EarthquakeMarker em = (EarthquakeMarker)m;
-		//    Then em can access the methods of the EarthquakeMarker class 
-		//       (e.g. isOnLand)
-		//  * If you know your Marker, m, is a LandQuakeMarker, then it has a "country" 
-		//      property set.  You can get the country with:
-		//        String country = (String)m.getProperty("country");
-		
-		
+				for (Marker c : countryMarkers) {
+					Object countryObj = c.getProperty("name");
+					int counter = 0;
+					for(Marker quake : quakeMarkers) {
+						Object qCountry = quake.getProperty("country");
+						if(qCountry == countryObj) {
+							counter += 1;
+						}
+					}
+					
+					if (counter >= 1) {
+						System.out.println(countryObj + " had " + counter + " earthquake(s).");
+					}
+					
+				}
+				System.out.println(numOceanQuakes + " earthquakes happened in the ocean.");
 	}
 	
 	
