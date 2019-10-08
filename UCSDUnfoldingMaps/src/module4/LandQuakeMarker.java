@@ -33,10 +33,14 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		// and how it is set in the EarthquakeMarker constructor
 		
 		// TODO: Implement this method
-		Object radO = getProperty("radius");
-		Float rad = Float.parseFloat(radO.toString());
-		pg.ellipse(x, y, rad, rad);
-		
+		int radius = 20;
+		if(getDepth() < THRESHOLD_INTERMEDIATE) {
+			radius = 10;
+		}
+		else if (getDepth()< THRESHOLD_DEEP) {
+			radius= 15;
+		}
+		pg.ellipse(x, y, radius, radius);
 	}
 	
 
