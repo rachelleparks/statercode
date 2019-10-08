@@ -41,6 +41,13 @@ public class LandQuakeMarker extends EarthquakeMarker {
 			radius= 15;
 		}
 		pg.ellipse(x, y, radius, radius);
+		
+		String age = getStringProperty("age");
+		if(age.equals("Past Day")) {
+			pg.fill(0);
+			pg.textSize(18);
+			pg.text("X", x-4, y+8);
+		}
 	}
 	
 
